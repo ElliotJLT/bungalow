@@ -1,0 +1,41 @@
+"""bungalow - turn the Clearbook MCP into one finished home-buying pack.
+
+The Clearbook MCP hands an agent facts about a UK purchase: stamp duty, lease
+risks, title entries, survey defects, regulated conveyancers. bungalow is the
+thin layer that orchestrates those tools and presents them as a single,
+prioritised due-diligence pack a buyer can act on.
+
+The product holds no domain knowledge. Every severity, cost, and rule comes from
+the MCP. bungalow orchestrates, aggregates, and renders. That is the line that
+keeps the MCP the source of truth.
+
+    from bungalow import build_report, Situation
+    from bungalow.backend import MCPBackend
+
+    report = build_report(
+        Situation(postcode="SE22", price=475000, tenure="leasehold", lease_remaining_years=82),
+        MCPBackend(),
+    )
+    print(report.headline)
+"""
+
+from __future__ import annotations
+
+from .builder import Situation, SurveyIssue, build_report
+from .models import DueDiligenceReport, Finding, Provider, Severity, StampDuty
+from .render import render_html, render_markdown
+
+__all__ = [
+    "DueDiligenceReport",
+    "Finding",
+    "Provider",
+    "Severity",
+    "Situation",
+    "StampDuty",
+    "SurveyIssue",
+    "build_report",
+    "render_html",
+    "render_markdown",
+]
+
+__version__ = "0.1.0"

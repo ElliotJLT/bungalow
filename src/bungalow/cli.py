@@ -50,6 +50,57 @@ def _cmd_demo(args: argparse.Namespace) -> int:
     return 0
 
 
+def _cmd_triage(args: argparse.Namespace) -> int:
+    from .backend import MCPBackend, StaticBackend
+    from .listing import ListingFields, build_triage, fetch_listing_context
+
+    if args.demo:
+        from ._sample_data import SAMPLE_RESPONSES
+
+        fields = ListingFields(
+            price=475000,
+            postcode="SE22 8HR",
+            tenure="leasehold",
+            lease_years=82,
+            ground_rent_annual=250,
+            ground_rent_escalation="doubling",
+            service_charge_annual=1800,
+        )
+        backend: object = StaticBackend(SAMPLE_RESPONSES)
+    else:
+        if args.price is None:
+            print("triage needs --price (or use --demo)", file=sys.stderr)
+            return 2
+        fields = ListingFields(
+            price=args.price,
+            postcode=args.postcode or "",
+            tenure="leasehold" if args.leasehold else "freehold",
+            lease_years=args.lease_years,
+            ground_rent_annual=args.ground_rent,
+            ground_rent_escalation=args.escalation,
+            service_charge_annual=args.service_charge,
+        )
+        if args.url:
+            context = fetch_listing_context(args.url)
+            if context is not None:
+                fields.address = context.address
+                fields.property_type = context.property_type
+                fields.bedrooms = context.bedrooms
+                fields.source_url = args.url
+                if not fields.postcode:
+                    fields.postcode = context.postcode
+            else:
+                print("could not read the listing page; using the fields given", file=sys.stderr)
+        backend = MCPBackend()
+
+    from .backend import ToolBackend
+
+    assert isinstance(backend, ToolBackend)
+    report = build_triage(fields, backend, args.buyer_type)
+    _emit(report, args)
+    return 0
+
+
 def _cmd_report(args: argparse.Namespace) -> int:
     from .backend import MCPBackend
 
@@ -83,6 +134,33 @@ def build_parser() -> argparse.ArgumentParser:
     demo = sub.add_parser("demo", help="render the sample pack (no server or key needed)")
     _add_output_flags(demo)
     demo.set_defaults(func=_cmd_demo)
+
+    tri = sub.add_parser(
+        "triage", help="browse-time pack from a listing (stamp duty + lease flags)"
+    )
+    tri.add_argument("--price", type=int, default=None)
+    tri.add_argument("--postcode", default="")
+    tri.add_argument("--url", help="a listing URL (best-effort: reads address and type)")
+    tri.add_argument(
+        "--buyer-type",
+        dest="buyer_type",
+        choices=["first_time_buyer", "home_mover", "additional_property"],
+        default="first_time_buyer",
+    )
+    tri.add_argument("--leasehold", action="store_true")
+    tri.add_argument("--lease-years", dest="lease_years", type=int, default=None)
+    tri.add_argument("--ground-rent", dest="ground_rent", type=int, default=0)
+    tri.add_argument(
+        "--escalation",
+        choices=["none", "fixed", "rpi", "doubling", "unknown"],
+        default="unknown",
+    )
+    tri.add_argument("--service-charge", dest="service_charge", type=int, default=0)
+    tri.add_argument(
+        "--demo", action="store_true", help="run on the sample listing, no server needed"
+    )
+    _add_output_flags(tri)
+    tri.set_defaults(func=_cmd_triage)
 
     rep = sub.add_parser("report", help="build a pack against the live Clearbook MCP")
     rep.add_argument("--postcode", required=True)

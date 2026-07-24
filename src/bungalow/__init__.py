@@ -22,20 +22,24 @@ keeps the MCP the source of truth.
 from __future__ import annotations
 
 from .builder import Situation, SurveyIssue, build_report
+from .listing import ListingFields, build_triage, situation_from_listing
 from .models import DueDiligenceReport, Finding, Provider, Severity, StampDuty
 from .render import render_html, render_markdown
 
 __all__ = [
     "DueDiligenceReport",
     "Finding",
+    "ListingFields",
     "Provider",
     "Severity",
     "Situation",
     "StampDuty",
     "SurveyIssue",
     "build_report",
+    "build_triage",
     "render_html",
     "render_markdown",
+    "situation_from_listing",
 ]
 
 __version__ = "0.1.0"

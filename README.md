@@ -8,8 +8,9 @@ wait two weeks for, assembled from regulated data in one pass.
 
 ```bash
 pip install -e .
-bungalow demo                    # prints the finished pack, no server or key needed
+bungalow demo                    # the full pack, no server or key needed
 bungalow demo --html pack.html   # the same pack as a shareable web page
+bungalow triage --demo           # the browse-time version (see below)
 ```
 
 ## The gap this fills
@@ -48,6 +49,34 @@ buyer, a leasehold flat at £475,000, with a doubling ground rent and a serious
 survey finding. The pack sorts the two high-severity issues (the ground rent and
 the subsidence) to the top, computes nothing itself, and ends with the actions that
 actually need doing.
+
+## Two moments: triage while browsing, the full pack once you offer
+
+A purchase has two moments that need different packs, and both run on the same
+engine and MCP.
+
+**Browse-time triage.** You are still on the portal deciding whether a listing is
+worth pursuing. The page carries price, tenure, and often the lease length and
+ground rent, which is enough for the stamp duty and the lease red flags. No title,
+no survey, no conveyancer search yet.
+
+```bash
+bungalow triage --price 475000 --leasehold --lease-years 82 \
+                --ground-rent 250 --escalation doubling --postcode "SE22 8HR"
+```
+
+**The full pack.** Your offer is accepted and your conveyancer sends the title
+register, the survey, the lease. Now `report` (or the library `build_report`) runs
+the deep checks.
+
+On sharing a URL: a listing page can be fetched, and `bungalow triage --url <link>`
+will read the page title for the address and property type. But Rightmove now ships
+its listing data in an obfuscated, encoded model rather than readable JSON, so price,
+tenure, and lease terms are not reliably extractable from the page source. Those you
+confirm. The clean way to get them automatically is a browser extension reading the
+rendered page, where the values are visible regardless of the source encoding, and
+posting them to the same `build_triage`. The engine already produces the pack from
+partial input, so the extension is an input adapter, not a rebuild.
 
 ## How it works
 
@@ -98,6 +127,8 @@ Honest about the boundary:
 
 ## Roadmap
 
+- A browser extension that reads a listing's rendered page into `build_triage`,
+  so the browse-time pack appears inline with zero data entry.
 - Extract structured inputs from pasted lease, title, and survey documents.
 - Rank conveyancers on the register facts once the SRA and FCA lookups are keyed.
 - A transaction-timeline view built on the MCP's `track_transaction_status`.

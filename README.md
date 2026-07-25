@@ -1,6 +1,6 @@
 # bungalow
 
-Turns the Clearbook MCP's home-buying tools into one finished due-diligence pack.
+Turns the homebuyer-mcp's home-buying tools into one finished due-diligence pack.
 You give it a purchase, it comes back with a single document: stamp duty, lease
 red flags, title entries, survey defects, and a prioritised list of what to do,
 worst first. The kind of thing you would otherwise pay a few hundred pounds and
@@ -15,7 +15,7 @@ bungalow triage --demo           # the browse-time version (see below)
 
 ## The gap this fills
 
-[Clearbook](https://github.com/ElliotJLT/homebuyer-mcp) is an MCP server. It hands
+[homebuyer-mcp](https://github.com/ElliotJLT/homebuyer-mcp) is an MCP server. It hands
 an agent facts about a UK purchase: what stamp duty is due, whether a lease has a
 dangerous ground rent clause, what a survey defect means. Facts, one tool at a
 time, with no opinion. That is correct for an MCP, and it is also where the buyer
@@ -43,7 +43,7 @@ product has no severity of its own.
 ## What the pack looks like
 
 See [`sample/report.md`](sample/report.md) and
-[`sample/report.html`](sample/report.html). Both are generated from real Clearbook
+[`sample/report.html`](sample/report.html). Both are generated from real homebuyer-mcp
 tool output (captured in `_sample_data.py`) for a synthetic purchase: a first-time
 buyer, a leasehold flat at £475,000, with a doubling ground rent and a serious
 survey finding. The pack sorts the two high-severity issues (the ground rent and
@@ -81,7 +81,7 @@ partial input, so the extension is an input adapter, not a rebuild.
 ## How it works
 
 ```
-Situation ──▶ build_report ──▶ ToolBackend ──▶ Clearbook MCP
+Situation ──▶ build_report ──▶ ToolBackend ──▶ homebuyer-mcp
  (what you        │                                  │
   know)           ▼                                  ▼
             DueDiligenceReport ◀── aggregate ◀── tool answers (severities, actions)
@@ -94,7 +94,7 @@ Situation ──▶ build_report ──▶ ToolBackend ──▶ Clearbook MCP
   lease, title, and survey details their conveyancer has sent so far.
 - **`build_report`** decides which MCP tools to call, calls them through a
   `ToolBackend`, and assembles the findings into one report.
-- **`ToolBackend`** is the seam. `MCPBackend` talks to the running Clearbook server
+- **`ToolBackend`** is the seam. `MCPBackend` talks to the running homebuyer-mcp server
   over stdio. `StaticBackend` replays recorded output, which is how the demo and
   tests run with no server and no keys.
 - **render** lays the report out as Markdown or a self-contained HTML page.
@@ -109,7 +109,7 @@ Honest about the boundary:
 - **Tested, no key or server:** the orchestration, the aggregation and sorting, the
   "no domain logic" guarantee, both renderers, the fallback brief, and the CLI demo.
   16 tests, ruff and mypy clean.
-- **Needs the live Clearbook MCP:** `MCPBackend` (the stdio client) and the
+- **Needs the live homebuyer-mcp:** `MCPBackend` (the stdio client) and the
   register-backed conveyancer search, which needs the MCP's SRA and FCA API keys.
   When those are absent the pack degrades gracefully and says so.
 - **Needs an Anthropic key:** the Claude brief. The fallback covers its absence.
@@ -119,7 +119,7 @@ Honest about the boundary:
 - bungalow is informational, not legal or financial advice. It routes you to the
   right questions; it does not replace a conveyancer or a qualified adviser.
 - It reports what the MCP returns. If a tool is wrong, the pack is wrong. The pack
-  is only as good as Clearbook, which is the reason for keeping the logic there,
+  is only as good as homebuyer-mcp, which is the reason for keeping the logic there,
   where it can be fixed once.
 - The pack works from what you tell it. It does not yet read a raw lease, title
   register, or survey PDF and pull out the structured facts. That extraction step (a

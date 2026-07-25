@@ -2,12 +2,12 @@
 
 Everything the product knows about a property comes through a `ToolBackend`. The
 product never calls SRA, computes stamp duty, or hardcodes a lease rule. It asks
-the backend, and the backend asks the Clearbook MCP. This is the line that keeps
+the backend, and the backend asks the homebuyer-mcp. This is the line that keeps
 the MCP the source of truth and the product a thin, honest presenter.
 
 Two backends ship:
 
-    MCPBackend     talks to the running Clearbook/bungalow MCP server (stdio).
+    MCPBackend     talks to the running homebuyer-mcp server (stdio).
     StaticBackend  replays recorded tool outputs, for tests and the sample.
 """
 
@@ -40,7 +40,7 @@ class StaticBackend:
 
 
 class MCPBackend:
-    """Call tools on the running Clearbook MCP server over stdio.
+    """Call tools on the running homebuyer-mcp server over stdio.
 
     Requires the `mcp` extra and the server on PATH (default `python -m
     clearbook`). A session is opened per call, which is simple and fine for a

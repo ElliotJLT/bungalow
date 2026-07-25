@@ -1,4 +1,4 @@
-"""Recorded outputs from a real Clearbook MCP session.
+"""Recorded outputs from a real homebuyer-mcp session.
 
 These are genuine tool responses captured from the live MCP, not invented. They
 drive `bungalow demo` and the tests so the product can be exercised end to end

@@ -1,7 +1,7 @@
 # bungalow due-diligence pack
 
 **SE22 8HR** · £475,000 · leasehold · first time buyer
-_Generated 2026-07-24 22:03 UTC_
+_Generated 2026-07-25 08:49 UTC_
 
 ## Serious issues to resolve before you spend money
 
@@ -79,4 +79,4 @@ _No firms returned. See notes._
 - Conveyancer register lookup returned nothing (the MCP's SRA and FCA lookups need API keys). Vet any firm on the SRA register and Companies House before instructing.
 
 ---
-_bungalow assembles facts from the Clearbook MCP into one document. It is informational, not legal or financial advice, and does not replace your conveyancer or a qualified adviser. Confirm anything that matters with them._
+_bungalow assembles facts from the homebuyer-mcp into one document. It is informational, not legal or financial advice, and does not replace your conveyancer or a qualified adviser. Confirm anything that matters with them._

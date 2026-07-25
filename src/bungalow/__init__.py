@@ -1,6 +1,6 @@
-"""bungalow - turn the Clearbook MCP into one finished home-buying pack.
+"""bungalow - turn the homebuyer-mcp into one finished home-buying pack.
 
-The Clearbook MCP hands an agent facts about a UK purchase: stamp duty, lease
+The homebuyer-mcp hands an agent facts about a UK purchase: stamp duty, lease
 risks, title entries, survey defects, regulated conveyancers. bungalow is the
 thin layer that orchestrates those tools and presents them as a single,
 prioritised due-diligence pack a buyer can act on.

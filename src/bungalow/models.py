@@ -3,7 +3,7 @@
 A deliberate constraint runs through this file: bungalow stores no domain
 knowledge. It does not know what a doubling ground rent means, what subsidence
 costs, or which lease length is risky. Every severity, cost, and rule comes from
-the Clearbook MCP. These types are containers for the MCP's answers plus the
+the homebuyer-mcp. These types are containers for the MCP's answers plus the
 light structure needed to present them as one document. Keeping the judgement in
 the MCP is what stops the product from weakening it.
 """

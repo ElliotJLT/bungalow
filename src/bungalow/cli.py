@@ -1,7 +1,7 @@
 """The bungalow command line.
 
     bungalow demo     render the sample pack from recorded MCP output (no server, no key)
-    bungalow report   run against the live Clearbook MCP for a real property
+    bungalow report   run against the live homebuyer-mcp for a real property
 
 `demo` is the 60-second look: it produces the finished pack from real, captured
 tool output so anyone can see the product work immediately.
@@ -162,7 +162,7 @@ def build_parser() -> argparse.ArgumentParser:
     _add_output_flags(tri)
     tri.set_defaults(func=_cmd_triage)
 
-    rep = sub.add_parser("report", help="build a pack against the live Clearbook MCP")
+    rep = sub.add_parser("report", help="build a pack against the live homebuyer-mcp")
     rep.add_argument("--postcode", required=True)
     rep.add_argument("--price", type=int, required=True)
     rep.add_argument(

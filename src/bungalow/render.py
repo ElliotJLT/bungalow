@@ -87,7 +87,7 @@ def render_markdown(report: DueDiligenceReport) -> str:
 
     lines.append("---")
     lines.append(
-        "_bungalow assembles facts from the Clearbook MCP into one document. It is "
+        "_bungalow assembles facts from the homebuyer-mcp into one document. It is "
         "informational, not legal or financial advice, and does not replace your "
         "conveyancer or a qualified adviser. Confirm anything that matters with them._"
     )
@@ -204,7 +204,7 @@ _HTML_SHELL = """<!doctype html>
 </head>
 <body>
 {body}
-<footer>bungalow assembles facts from the Clearbook MCP into one document. It is
+<footer>bungalow assembles facts from the homebuyer-mcp into one document. It is
 informational, not legal or financial advice, and does not replace your conveyancer
 or a qualified adviser. Confirm anything that matters with them.</footer>
 </body>

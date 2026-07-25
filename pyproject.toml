@@ -5,7 +5,7 @@ build-backend = "hatchling.build"
 [project]
 name = "bungalow"
 version = "0.1.0"
-description = "Turns the Clearbook MCP's home-buying tools into one finished due-diligence pack. The product presents and prioritises; every fact comes from the MCP."
+description = "Turns the homebuyer-mcp's home-buying tools into one finished due-diligence pack. The product presents and prioritises; every fact comes from the MCP."
 readme = "README.md"
 requires-python = ">=3.10"
 license = { text = "MIT" }
@@ -22,7 +22,7 @@ classifiers = [
 dependencies = []
 
 [project.optional-dependencies]
-# The MCP backend talks to the running Clearbook/bungalow MCP server.
+# The MCP backend talks to the running homebuyer-mcp server.
 mcp = ["mcp>=1.0"]
 # The optional plain-English brief is written by Claude.
 brief = ["anthropic>=0.40"]

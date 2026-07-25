@@ -8,10 +8,21 @@ wait two weeks for, assembled from regulated data in one pass.
 
 ```bash
 pip install -e .
+
+# the friendly way: describe the property in plain English
+bungalow ask "first-time buyer, 475k leasehold flat in SE22, 82 years left,
+              250 ground rent that doubles"
+
+# the keyless look: a finished pack from recorded MCP output
 bungalow demo                    # the full pack, no server or key needed
 bungalow demo --html pack.html   # the same pack as a shareable web page
-bungalow triage --demo           # the browse-time version (see below)
 ```
+
+`ask` is the front door. You say what you know in plain English, Claude reads it
+into the fields the engine needs, and you get the pack back. If the one thing it
+cannot do without is missing (the asking price), it asks for that rather than
+guessing. It needs an Anthropic key for the reading and the homebuyer-mcp for the
+tools. `demo` needs neither, which is how you see the output shape in one command.
 
 ## The gap this fills
 

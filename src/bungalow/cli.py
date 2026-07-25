@@ -1,10 +1,12 @@
 """The bungalow command line.
 
+    bungalow ask      describe a property in plain English, get the pack (needs a key + MCP)
     bungalow demo     render the sample pack from recorded MCP output (no server, no key)
-    bungalow report   run against the live homebuyer-mcp for a real property
+    bungalow triage   browse-time pack from listing fields
+    bungalow report   full pack against the live homebuyer-mcp
 
-`demo` is the 60-second look: it produces the finished pack from real, captured
-tool output so anyone can see the product work immediately.
+`ask` is the friendly front door. `demo` is the 60-second look: it produces the
+finished pack from real, captured tool output with no server or key.
 """
 
 from __future__ import annotations
@@ -46,6 +48,21 @@ def _cmd_demo(args: argparse.Namespace) -> int:
     from .backend import StaticBackend
 
     report = build_report(SAMPLE_SITUATION, StaticBackend(SAMPLE_RESPONSES))
+    _emit(report, args)
+    return 0
+
+
+def _cmd_ask(args: argparse.Namespace) -> int:
+    from .ask import run_ask
+
+    try:
+        report, question = run_ask(args.text)
+    except Exception as exc:  # noqa: BLE001 - surface a friendly message
+        print(f"could not read that: {type(exc).__name__}. is your ANTHROPIC_API_KEY set?")
+        return 1
+    if question:
+        print(question)
+        return 0
     _emit(report, args)
     return 0
 
@@ -130,6 +147,13 @@ def _add_output_flags(p: argparse.ArgumentParser) -> None:
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(prog="bungalow", description=__doc__)
     sub = parser.add_subparsers(dest="command", required=True)
+
+    ask = sub.add_parser(
+        "ask", help="describe a property in plain English (needs a key and the MCP)"
+    )
+    ask.add_argument("text", help="a plain-English description of the property")
+    _add_output_flags(ask)
+    ask.set_defaults(func=_cmd_ask)
 
     demo = sub.add_parser("demo", help="render the sample pack (no server or key needed)")
     _add_output_flags(demo)

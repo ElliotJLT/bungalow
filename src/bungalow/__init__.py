@@ -21,6 +21,7 @@ keeps the MCP the source of truth.
 
 from __future__ import annotations
 
+from .ask import Extraction, extract, run_ask
 from .builder import Situation, SurveyIssue, build_report
 from .listing import ListingFields, build_triage, situation_from_listing
 from .models import DueDiligenceReport, Finding, Provider, Severity, StampDuty
@@ -28,6 +29,7 @@ from .render import render_html, render_markdown
 
 __all__ = [
     "DueDiligenceReport",
+    "Extraction",
     "Finding",
     "ListingFields",
     "Provider",
@@ -37,8 +39,10 @@ __all__ = [
     "SurveyIssue",
     "build_report",
     "build_triage",
+    "extract",
     "render_html",
     "render_markdown",
+    "run_ask",
     "situation_from_listing",
 ]
 
